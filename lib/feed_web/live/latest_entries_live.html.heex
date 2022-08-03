@@ -1,0 +1,26 @@
+<h1>Latest feed entries</h1>
+
+<a class="button" phx-click="load_new_entries">Load new entries</a>
+<a class="button" phx-click="clear_last_entry">Clear last entry</a>
+
+<span><%= @timer %>s</span>
+
+<%= for feed_entry <- @feed_entries do %>
+  <hr/>
+
+  <div>
+    <div>
+      <h3><%= feed_entry.id %></h3>
+
+      <div
+        phx-hook="Plotly"
+        phx-update="ignore"
+        id={"plotly-#{feed_entry.id}"}
+        data-content={feed_entry.id |> FeedEntries.get_entry_data() |> Jason.encode!()}
+      >
+        <div class="status" />
+        <div class="plotly-content" />
+      </div>
+    </div>
+  </div>
+<% end %>
